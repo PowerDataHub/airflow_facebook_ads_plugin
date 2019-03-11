@@ -1,3 +1,5 @@
+""" Facebook Ads Insights To S3 Operator """
+
 import json
 import logging
 import os
@@ -5,10 +7,12 @@ import uuid
 
 from airflow.hooks.S3_hook import S3Hook
 from airflow.models import BaseOperator
+from airflow.utils.decorators import apply_defaults
 from facebook_ads_plugin.hooks.facebook_ads_hook import FacebookAdsHook
 
 
 class FacebookAdsInsightsToS3Operator(BaseOperator):
+
     """
     Facebook Ads Insights To S3 Operator
 
@@ -47,6 +51,7 @@ class FacebookAdsInsightsToS3Operator(BaseOperator):
 
     template_fields = ("s3_key", "s3_bucket", "since", "until")
 
+    @apply_defaults
     def __init__(
         self,
         access_token,
@@ -83,7 +88,7 @@ class FacebookAdsInsightsToS3Operator(BaseOperator):
 
     def execute(self, context):
         facebook_conn = FacebookAdsHook(self.access_token, self.facebook_conn_id)
-        s3_conn = S3Hook(self.aws_conn_id)
+        s3_hook = S3Hook(self.aws_conn_id)
 
         logging.info("Fetch API since " + str(self.since))
         logging.info("Fetch API until " + str(self.until))
@@ -111,7 +116,7 @@ class FacebookAdsInsightsToS3Operator(BaseOperator):
                     for insight in insights:
                         insight_file.write(json.dumps(insight) + "\n")
 
-        s3_conn.load_file(file_name, self.s3_key, self.s3_bucket, True)
+        s3_hook.load_file(file_name, self.s3_key, self.s3_bucket, True)
         os.remove(file_name)
 
 
@@ -183,7 +188,7 @@ class FacebookAdsToS3Operator(BaseOperator):
 
     def execute(self, context):
         facebook_conn = FacebookAdsHook(self.access_token, self.facebook_conn_id)
-        s3_conn = S3Hook(self.aws_conn_id)
+        s3_hook = S3Hook(self.aws_conn_id)
 
         logging.info("Fields " + str(self.fields))
 
@@ -204,5 +209,5 @@ class FacebookAdsToS3Operator(BaseOperator):
                     for item in result:
                         file.write(json.dumps(item) + "\n")
 
-        s3_conn.load_file(file_name, self.s3_key, self.s3_bucket, True)
+        s3_hook.load_file(file_name, self.s3_key, self.s3_bucket, True)
         os.remove(file_name)

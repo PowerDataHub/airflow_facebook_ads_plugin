@@ -1,3 +1,5 @@
+""" Facebook Ads Hook """
+
 from urllib.parse import urlencode
 from airflow.hooks.base_hook import BaseHook
 import requests
