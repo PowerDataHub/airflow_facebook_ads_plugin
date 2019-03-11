@@ -2,17 +2,17 @@
 
 ### Operators
 
-FacebookAdsInsightsToS3Operator
+- FacebookAdsInsightsToS3Operator
 
-#### Get Insights from GraphAPI
+> Get Insights from GraphAPI
 
-FacebookAdsToS3Operator
+- FacebookAdsToS3Operator
 
-#### Call GraphAPI to get objects info like Ad, AdSet, Campaign etc...
+> Call GraphAPI to get objects info like Ad, AdSet, Campaign etc...
 
 ### Hooks
 
-FacebookAdsHook
+- FacebookAdsHook
 
-#### Interacts with Facebook's GraphAPI
+> Interacts with Facebook's GraphAPI
 
