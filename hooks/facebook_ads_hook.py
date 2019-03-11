@@ -24,10 +24,10 @@ class FacebookAdsHook(BaseHook):
         response.raise_for_status()
         response_body = response.json()
         return_value = []
+        return_value.extend(response_body["data"])
 
         while "next" in response_body.get("paging", {}):
             time.sleep(2)
-            return_value.extend(response_body["data"])
             response = requests.get(response_body["paging"]["next"])
             response.raise_for_status()
             response_body = response.json()
