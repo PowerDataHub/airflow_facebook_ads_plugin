@@ -89,10 +89,10 @@ class FacebookAdsInsightsToS3Operator(BaseOperator):
         facebook_hook = FacebookAdsHook(self.access_token, self.facebook_conn_id)
         s3_hook = S3Hook(self.aws_conn_id)
 
-        self.log.info("Fetch API since " + str(self.since))
-        self.log.info("Fetch API until " + str(self.until))
-        self.log.info("Breakdowns " + str(self.breakdowns))
-        self.log.info("Fields " + str(self.insight_fields))
+        self.log.info("Fetch API since: %s", str(self.since))
+        self.log.info("Fetch API until: %s", str(self.until))
+        self.log.info("Breakdowns: %s", str(self.breakdowns))
+        self.log.info("Fields: %s", str(self.insight_fields))
 
         time_range = {"since": self.since, "until": self.until}
 
@@ -114,7 +114,7 @@ class FacebookAdsInsightsToS3Operator(BaseOperator):
                     for insight in insights:
                         insight_file.write(json.dumps(insight) + "\n")
 
-        s3_hook.load_file(file_name, self.s3_key, self.s3_bucket, True)
+                s3_hook.load_file(file_name, self.s3_key, self.s3_bucket, True)
         os.remove(file_name)
 
 
@@ -188,7 +188,8 @@ class FacebookAdsToS3Operator(BaseOperator):
         facebook_conn = FacebookAdsHook(self.access_token, self.facebook_conn_id)
         s3_hook = S3Hook(self.aws_conn_id)
 
-        self.log.info("Fields " + str(self.fields))
+        self.log.info("Object Type: %s", str(self.object_type))
+        self.log.info("Fields: %s", str(self.fields))
 
         file_name = "/tmp/{key}.jsonl".format(key=uuid.uuid4().hex)
 
