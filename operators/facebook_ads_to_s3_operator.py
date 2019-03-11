@@ -1,12 +1,10 @@
 import json
+import logging
 import os
 import uuid
-import logging
-
 
 from airflow.hooks.S3_hook import S3Hook
 from airflow.models import BaseOperator
-
 from facebook_ads_plugin.hooks.facebook_ads_hook import FacebookAdsHook
 
 
@@ -194,7 +192,9 @@ class FacebookAdsToS3Operator(BaseOperator):
         with open(file_name, "w") as file:
             for account_id in self.account_ids:
                 if self.object_type == "campaign":
-                    result = facebook_conn.campaigns(account_id, self.fields, self.limit)
+                    result = facebook_conn.campaigns(
+                        account_id, self.fields, self.limit
+                    )
                 elif self.object_type == "ad":
                     result = facebook_conn.ads(account_id, self.fields, self.limit)
                 elif self.object_type == "adset":

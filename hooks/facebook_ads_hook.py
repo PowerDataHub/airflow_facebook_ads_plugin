@@ -1,13 +1,14 @@
 from urllib.parse import urlencode
+from airflow.hooks.base_hook import BaseHook
 import requests
 import time
 import logging
 
-from airflow.hooks.base_hook import BaseHook
-
 
 class FacebookAdsHook(BaseHook):
-    def __init__(self, access_token, source, facebook_ads_conn_id="facebook_ads_default"):
+    def __init__(
+        self, access_token, source, facebook_ads_conn_id="facebook_ads_default"
+    ):
         super().__init__(source)
         self.facebook_ads_conn_id = facebook_ads_conn_id
         self.connection = self.get_connection(facebook_ads_conn_id)
@@ -34,7 +35,14 @@ class FacebookAdsHook(BaseHook):
         return return_value
 
     def insights(
-        self, account_id, insight_fields, breakdowns, time_range, time_increment="all_days", level="ad", limit=100
+        self,
+        account_id,
+        insight_fields,
+        breakdowns,
+        time_range,
+        time_increment="all_days",
+        level="ad",
+        limit=100,
     ):
 
         payload = urlencode(
@@ -51,13 +59,19 @@ class FacebookAdsHook(BaseHook):
 
         logging.info(
             "API CALL: {base_uri}/v{api_version}/act_{account_id}/insights?{payload}".format(
-                base_uri=self.base_uri, api_version=self.api_version, account_id=account_id, payload=payload
+                base_uri=self.base_uri,
+                api_version=self.api_version,
+                account_id=account_id,
+                payload=payload,
             )
         )
 
         response = requests.get(
             "{base_uri}/v{api_version}/act_{account_id}/insights?{payload}".format(
-                base_uri=self.base_uri, api_version=self.api_version, account_id=account_id, payload=payload
+                base_uri=self.base_uri,
+                api_version=self.api_version,
+                account_id=account_id,
+                payload=payload,
             )
         )
 
@@ -65,17 +79,29 @@ class FacebookAdsHook(BaseHook):
 
     def campaigns(self, account_id, fields, limit=100):
 
-        payload = urlencode({"access_token": self.access_token, "fields": ",".join(fields), "limit": limit})
+        payload = urlencode(
+            {
+                "access_token": self.access_token,
+                "fields": ",".join(fields),
+                "limit": limit,
+            }
+        )
 
         logging.info(
             "API CALL: {base_uri}/v{api_version}/act_{account_id}/campaigns?{payload}".format(
-                base_uri=self.base_uri, api_version=self.api_version, account_id=account_id, payload=payload
+                base_uri=self.base_uri,
+                api_version=self.api_version,
+                account_id=account_id,
+                payload=payload,
             )
         )
 
         response = requests.get(
             "{base_uri}/v{api_version}/act_{account_id}/campaigns?{payload}".format(
-                base_uri=self.base_uri, api_version=self.api_version, account_id=account_id, payload=payload
+                base_uri=self.base_uri,
+                api_version=self.api_version,
+                account_id=account_id,
+                payload=payload,
             )
         )
 
@@ -83,17 +109,29 @@ class FacebookAdsHook(BaseHook):
 
     def ads(self, account_id, fields, limit=100):
 
-        payload = urlencode({"access_token": self.access_token, "fields": ",".join(fields), "limit": limit})
+        payload = urlencode(
+            {
+                "access_token": self.access_token,
+                "fields": ",".join(fields),
+                "limit": limit,
+            }
+        )
 
         logging.info(
             "API CALL: {base_uri}/v{api_version}/act_{account_id}/ads?{payload}".format(
-                base_uri=self.base_uri, api_version=self.api_version, account_id=account_id, payload=payload
+                base_uri=self.base_uri,
+                api_version=self.api_version,
+                account_id=account_id,
+                payload=payload,
             )
         )
 
         response = requests.get(
             "{base_uri}/v{api_version}/act_{account_id}/ads?{payload}".format(
-                base_uri=self.base_uri, api_version=self.api_version, account_id=account_id, payload=payload
+                base_uri=self.base_uri,
+                api_version=self.api_version,
+                account_id=account_id,
+                payload=payload,
             )
         )
 
@@ -101,17 +139,29 @@ class FacebookAdsHook(BaseHook):
 
     def adsets(self, account_id, fields, limit=100):
 
-        payload = urlencode({"access_token": self.access_token, "fields": ",".join(fields), "limit": limit})
+        payload = urlencode(
+            {
+                "access_token": self.access_token,
+                "fields": ",".join(fields),
+                "limit": limit,
+            }
+        )
 
         logging.info(
             "API CALL: {base_uri}/v{api_version}/act_{account_id}/adsets?{payload}".format(
-                base_uri=self.base_uri, api_version=self.api_version, account_id=account_id, payload=payload
+                base_uri=self.base_uri,
+                api_version=self.api_version,
+                account_id=account_id,
+                payload=payload,
             )
         )
 
         response = requests.get(
             "{base_uri}/v{api_version}/act_{account_id}/adsets?{payload}".format(
-                base_uri=self.base_uri, api_version=self.api_version, account_id=account_id, payload=payload
+                base_uri=self.base_uri,
+                api_version=self.api_version,
+                account_id=account_id,
+                payload=payload,
             )
         )
 
