@@ -1,7 +1,6 @@
 """ Facebook Ads Insights To S3 Operator """
 
 import json
-import logging
 import os
 import uuid
 
@@ -87,14 +86,13 @@ class FacebookAdsInsightsToS3Operator(BaseOperator):
         self.limit = limit
 
     def execute(self, context):
-        facebook_conn = FacebookAdsHook(self.access_token, self.facebook_conn_id)
+        facebook_hook = FacebookAdsHook(self.access_token, self.facebook_conn_id)
         s3_hook = S3Hook(self.aws_conn_id)
 
-        logging.info("Fetch API since " + str(self.since))
-        logging.info("Fetch API until " + str(self.until))
-
-        logging.info("Breakdowns " + str(self.breakdowns))
-        logging.info("Fields " + str(self.insight_fields))
+        self.log.info("Fetch API since " + str(self.since))
+        self.log.info("Fetch API until " + str(self.until))
+        self.log.info("Breakdowns " + str(self.breakdowns))
+        self.log.info("Fields " + str(self.insight_fields))
 
         time_range = {"since": self.since, "until": self.until}
 
@@ -102,7 +100,7 @@ class FacebookAdsInsightsToS3Operator(BaseOperator):
 
         with open(file_name, "w") as insight_file:
             for account_id in self.account_ids:
-                insights = facebook_conn.insights(
+                insights = facebook_hook.insights(
                     account_id,
                     self.insight_fields,
                     self.breakdowns,
@@ -190,7 +188,7 @@ class FacebookAdsToS3Operator(BaseOperator):
         facebook_conn = FacebookAdsHook(self.access_token, self.facebook_conn_id)
         s3_hook = S3Hook(self.aws_conn_id)
 
-        logging.info("Fields " + str(self.fields))
+        self.log.info("Fields " + str(self.fields))
 
         file_name = "/tmp/{key}.jsonl".format(key=uuid.uuid4().hex)
 
