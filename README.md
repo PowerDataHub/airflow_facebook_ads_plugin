@@ -16,3 +16,7 @@
 
 > Interacts with Facebook's GraphAPI
 
+---
+
+Based on https://github.com/airflow-plugins/facebook_ads_plugin
+
