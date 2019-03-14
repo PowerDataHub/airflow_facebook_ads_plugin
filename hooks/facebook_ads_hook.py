@@ -23,14 +23,22 @@ class FacebookAdsHook(BaseHook):
     def parse_result(response):
         response.raise_for_status()
         response_body = response.json()
+
+        logging.info("Response Content: {}".format(response.content))
+        logging.info("Response Headers: {}".format(response.headers))
+        logging.info("Response Body: {}".format(response.json()))
+
         return_value = []
         return_value.extend(response_body["data"])
 
         while "next" in response_body.get("paging", {}):
-            time.sleep(2)
+            logging.info("Paginated result!")
+            time.sleep(3)
             response = requests.get(response_body["paging"]["next"])
             response.raise_for_status()
             response_body = response.json()
+
+            logging.info("Response Headers: {}".format(response.headers))
 
             return_value.extend(response_body["data"])
 
@@ -59,7 +67,7 @@ class FacebookAdsHook(BaseHook):
             }
         )
 
-        logging.info(
+        self.log.info(
             "API CALL: {base_uri}/v{api_version}/act_{account_id}/insights?{payload}".format(
                 base_uri=self.base_uri,
                 api_version=self.api_version,
@@ -89,7 +97,7 @@ class FacebookAdsHook(BaseHook):
             }
         )
 
-        logging.info(
+        self.log.info(
             "API CALL: {base_uri}/v{api_version}/act_{account_id}/campaigns?{payload}".format(
                 base_uri=self.base_uri,
                 api_version=self.api_version,
@@ -119,7 +127,7 @@ class FacebookAdsHook(BaseHook):
             }
         )
 
-        logging.info(
+        self.log.info(
             "API CALL: {base_uri}/v{api_version}/act_{account_id}/ads?{payload}".format(
                 base_uri=self.base_uri,
                 api_version=self.api_version,
@@ -149,7 +157,7 @@ class FacebookAdsHook(BaseHook):
             }
         )
 
-        logging.info(
+        self.log.info(
             "API CALL: {base_uri}/v{api_version}/act_{account_id}/adsets?{payload}".format(
                 base_uri=self.base_uri,
                 api_version=self.api_version,
