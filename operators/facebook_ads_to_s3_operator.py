@@ -17,8 +17,8 @@ class FacebookAdsInsightsToS3Operator(BaseOperator):
 
     :param facebook_conn_id:        The source facebook connection id.
     :type facebook_conn_id:         string
-    :param aws_conn_id:              The destination s3 connection id.
-    :type aws_conn_id:               string
+    :param aws_conn_id:             The destination s3 connection id.
+    :type aws_conn_id:              string
     :param s3_bucket:               The destination s3 bucket.
     :type s3_bucket:                string
     :param s3_key:                  The destination s3 key.
@@ -203,6 +203,10 @@ class FacebookAdsToS3Operator(BaseOperator):
                     result = facebook_conn.ads(account_id, self.fields, self.limit)
                 elif self.object_type == "adset":
                     result = facebook_conn.adsets(account_id, self.fields, self.limit)
+                elif self.object_type == "adcreative":
+                    result = facebook_conn.adcreatives(
+                        account_id, self.fields, self.limit
+                    )
 
                 if len(result) > 0:
                     for item in result:
