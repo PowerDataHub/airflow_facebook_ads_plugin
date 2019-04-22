@@ -1,4 +1,4 @@
-[![Maintained by Powerdatahub.com](https://img.shields.io/badge/maintained%20by-powerdatahub.com-%233D4DFE.svg?style=for-the-badge)](https://powerdatahub.com/?ref=repo_aws_airflow) [![Tested with Apache Airflow 1.10.2](https://img.shields.io/badge/Tested%20with%20Apache%20Airflow-1.10.2-3D4DFE.svg?style=for-the-badge)](https://github.com/apache/airflow/)
+[![Maintained by Powerdatahub.com](https://img.shields.io/badge/maintained%20by-powerdatahub.com-%233D4DFE.svg?style=for-the-badge)](https://powerdatahub.com/?ref=airflow_facebook_ads_plugin) [![Tested with Apache Airflow 1.10.2](https://img.shields.io/badge/Tested%20with%20Apache%20Airflow-1.10.2-3D4DFE.svg?style=for-the-badge)](https://github.com/apache/airflow/)
 
 # Airflow Plugin - Facebook Ads
 
