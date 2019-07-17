@@ -86,7 +86,9 @@ class FacebookAdsInsightsToS3Operator(BaseOperator):
         self.limit = limit
 
     def execute(self, context):
-        facebook_hook = FacebookAdsHook(self.access_token, self.facebook_conn_id)
+        facebook_hook = FacebookAdsHook(
+            access_token=self.access_token, facebook_ads_conn_id=self.facebook_conn_id
+        )
         s3_hook = S3Hook(self.aws_conn_id)
 
         self.log.info("Fetch API since: %s", str(self.since))
@@ -114,11 +116,17 @@ class FacebookAdsInsightsToS3Operator(BaseOperator):
                     for insight in insights:
                         insight_file.write(json.dumps(insight) + "\n")
 
-                s3_hook.load_file(file_name, self.s3_key, self.s3_bucket, True)
+                s3_hook.load_file(
+                    filename=file_name,
+                    key=self.s3_key,
+                    bucket_name=self.s3_bucket,
+                    replace=True,
+                )
         os.remove(file_name)
 
 
 class FacebookAdsToS3Operator(BaseOperator):
+
     """
     Facebook Ads Insights To S3 Operator
     :param facebook_conn_id:        The source facebook connection id.
@@ -129,12 +137,12 @@ class FacebookAdsToS3Operator(BaseOperator):
     :type s3_bucket:                string
     :param s3_key:                  The destination s3 key.
     :type s3_key:                   string
-    :param s3_key:                  An array of Facebook Ad Account Ids strings which
+    :param account_ids:             An array of Facebook Ad Account Ids strings which
                                     own campaigns, ad_sets, and ads.
-    :type s3_key:                   array
-    :param account_ids:             An array of insight field strings to get back from
-                                    the API.  Defaults to an empty array.
     :type account_ids:              array
+    :param fields:                  An array of insight field strings to get back from
+                                    the API.  Defaults to an empty array.
+    :type fields:              array
     :param object_type:             Type of object returned: ad, adset, campaign, adgroup.
     :type object_type:              collections.Iterable
     :param breakdowns:              An array of breakdown strings for which to group insights.abs
@@ -185,7 +193,9 @@ class FacebookAdsToS3Operator(BaseOperator):
         self.limit = limit
 
     def execute(self, context):
-        facebook_conn = FacebookAdsHook(self.access_token, self.facebook_conn_id)
+        facebook_conn = FacebookAdsHook(
+            access_token=self.access_token, facebook_ads_conn_id=self.facebook_conn_id
+        )
         s3_hook = S3Hook(self.aws_conn_id)
 
         self.log.info("Object Type: %s", str(self.object_type))
@@ -212,5 +222,10 @@ class FacebookAdsToS3Operator(BaseOperator):
                     for item in result:
                         file.write(json.dumps(item) + "\n")
 
-        s3_hook.load_file(file_name, self.s3_key, self.s3_bucket, True)
+        s3_hook.load_file(
+            filename=file_name,
+            key=self.s3_key,
+            bucket_name=self.s3_bucket,
+            replace=True,
+        )
         os.remove(file_name)

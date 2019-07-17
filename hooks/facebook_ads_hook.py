@@ -8,16 +8,15 @@ import logging
 
 
 class FacebookAdsHook(BaseHook):
-    def __init__(
-        self, access_token, source, facebook_ads_conn_id="facebook_ads_default"
-    ):
-        super().__init__(source)
+    def __init__(self, facebook_ads_conn_id, access_token):
         self.facebook_ads_conn_id = facebook_ads_conn_id
         self.connection = self.get_connection(facebook_ads_conn_id)
 
         self.base_uri = "https://graph.facebook.com"
         self.api_version = self.connection.extra_dejson["api_version"] or "3.2"
         self.access_token = access_token
+
+        super().__init__(self)
 
     @staticmethod
     def parse_result(response):
@@ -92,7 +91,7 @@ class FacebookAdsHook(BaseHook):
         )
 
         self.log.info(
-            "API CALL: {base_uri}/v{api_version}/act_{account_id}/insights?{payload}".format(
+            "API CALL: {base_uri}/v{api_version}/{account_id}/insights?{payload}".format(
                 base_uri=self.base_uri,
                 api_version=self.api_version,
                 account_id=account_id,
@@ -101,7 +100,7 @@ class FacebookAdsHook(BaseHook):
         )
 
         response = requests.get(
-            "{base_uri}/v{api_version}/act_{account_id}/insights?{payload}".format(
+            "{base_uri}/v{api_version}/{account_id}/insights?{payload}".format(
                 base_uri=self.base_uri,
                 api_version=self.api_version,
                 account_id=account_id,
@@ -122,7 +121,7 @@ class FacebookAdsHook(BaseHook):
         )
 
         self.log.info(
-            "API CALL: {base_uri}/v{api_version}/act_{account_id}/campaigns?{payload}".format(
+            "API CALL: {base_uri}/v{api_version}/{account_id}/campaigns?{payload}".format(
                 base_uri=self.base_uri,
                 api_version=self.api_version,
                 account_id=account_id,
@@ -131,7 +130,7 @@ class FacebookAdsHook(BaseHook):
         )
 
         response = requests.get(
-            "{base_uri}/v{api_version}/act_{account_id}/campaigns?{payload}".format(
+            "{base_uri}/v{api_version}/{account_id}/campaigns?{payload}".format(
                 base_uri=self.base_uri,
                 api_version=self.api_version,
                 account_id=account_id,
@@ -152,7 +151,7 @@ class FacebookAdsHook(BaseHook):
         )
 
         self.log.info(
-            "API CALL: {base_uri}/v{api_version}/act_{account_id}/ads?{payload}".format(
+            "API CALL: {base_uri}/v{api_version}/{account_id}/ads?{payload}".format(
                 base_uri=self.base_uri,
                 api_version=self.api_version,
                 account_id=account_id,
@@ -161,7 +160,7 @@ class FacebookAdsHook(BaseHook):
         )
 
         response = requests.get(
-            "{base_uri}/v{api_version}/act_{account_id}/ads?{payload}".format(
+            "{base_uri}/v{api_version}/{account_id}/ads?{payload}".format(
                 base_uri=self.base_uri,
                 api_version=self.api_version,
                 account_id=account_id,
@@ -182,7 +181,7 @@ class FacebookAdsHook(BaseHook):
         )
 
         self.log.info(
-            "API CALL: {base_uri}/v{api_version}/act_{account_id}/adsets?{payload}".format(
+            "API CALL: {base_uri}/v{api_version}/{account_id}/adsets?{payload}".format(
                 base_uri=self.base_uri,
                 api_version=self.api_version,
                 account_id=account_id,
@@ -191,7 +190,7 @@ class FacebookAdsHook(BaseHook):
         )
 
         response = requests.get(
-            "{base_uri}/v{api_version}/act_{account_id}/adsets?{payload}".format(
+            "{base_uri}/v{api_version}/{account_id}/adsets?{payload}".format(
                 base_uri=self.base_uri,
                 api_version=self.api_version,
                 account_id=account_id,
@@ -212,7 +211,7 @@ class FacebookAdsHook(BaseHook):
         )
 
         self.log.info(
-            "API CALL: {base_uri}/v{api_version}/act_{account_id}/adcreatives?{payload}".format(
+            "API CALL: {base_uri}/v{api_version}/{account_id}/adcreatives?{payload}".format(
                 base_uri=self.base_uri,
                 api_version=self.api_version,
                 account_id=account_id,
@@ -221,7 +220,7 @@ class FacebookAdsHook(BaseHook):
         )
 
         response = requests.get(
-            "{base_uri}/v{api_version}/act_{account_id}/adcreatives?{payload}".format(
+            "{base_uri}/v{api_version}/{account_id}/adcreatives?{payload}".format(
                 base_uri=self.base_uri,
                 api_version=self.api_version,
                 account_id=account_id,
